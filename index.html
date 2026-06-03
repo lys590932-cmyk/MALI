@@ -51,8 +51,6 @@ main{padding:16px}
 nav{position:fixed;bottom:0;left:0;right:0;max-width:520px;margin:0 auto;background:#fff;display:flex;border-top:1px solid var(--line);z-index:60}
 nav button{flex:1;background:none;border:none;padding:9px 0 8px;color:var(--muted);font-size:10.5px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;font-family:inherit}
 nav button .ni{font-size:21px;line-height:1}
-nav button .ni svg{width:23px;height:23px;display:block}
-.fab button svg{width:18px;height:18px;vertical-align:-3px;margin-left:4px}
 nav button.on{color:var(--teal);font-weight:700}
 .fab{position:fixed;bottom:84px;left:50%;transform:translateX(-50%);max-width:520px;width:100%;display:flex;justify-content:center;pointer-events:none;z-index:55}
 .fab button{pointer-events:auto;background:var(--teal);color:#fff;border:none;border-radius:50px;padding:13px 26px;font-size:15px;font-weight:700;box-shadow:0 6px 18px rgba(15,118,110,.4);cursor:pointer;font-family:inherit}
@@ -120,14 +118,6 @@ select#month{margin-bottom:12px}
   <div class="card">
     <h2>📊 المصاريف حسب البند</h2>
     <div id="bars"></div>
-  </div>
-  <div class="card">
-    <h2>📅 ملخّص آخر ٧ أيام</h2>
-    <div id="weekSum"></div>
-  </div>
-  <div class="card">
-    <h2>💧 كاشف التسريبات</h2>
-    <div id="leaks"></div>
   </div>
   <div class="card">
     <h2>🕐 آخر الحركات</h2>
@@ -230,14 +220,14 @@ select#month{margin-bottom:12px}
 </main>
 </div>
 
-<div class="fab"><button onclick="openAdd()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>إضافة حركة</button></div>
+<div class="fab"><button onclick="openAdd()">+ إضافة حركة</button></div>
 
 <nav>
-  <button class="on" data-p="home" onclick="go('home')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9.5 21v-6h5v6"/></svg></span>الرئيسية</button>
-  <button data-p="tx" onclick="go('tx')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h10a2 2 0 0 1 2 2v16l-3-2-2 2-2-2-2 2-2-2-3 2V5a2 2 0 0 1 2-2z"/><path d="M9 8h6M9 12h6"/></svg></span>الحركات</button>
-  <button data-p="save" onclick="go('save')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="0.8" fill="currentColor"/></svg></span>التوفير</button>
-  <button data-p="report" onclick="go('report')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span>التقارير</button>
-  <button data-p="set" onclick="go('set')"><span class="ni"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 13a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 0 1-4 0v-.2A1.6 1.6 0 0 0 6.8 19l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0-1.1-2.7H3a2 2 0 0 1 0-4h.2A1.6 1.6 0 0 0 4.3 6.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.6 1.6 0 0 0 9 4.3V3a2 2 0 0 1 4 0v.2a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0 1.1 2.7H21a2 2 0 0 1 0 4h-.2a1.6 1.6 0 0 0-1.4 1z"/></svg></span>الإعدادات</button>
+  <button class="on" data-p="home" onclick="go('home')"><span class="ni">🏠</span>الرئيسية</button>
+  <button data-p="tx" onclick="go('tx')"><span class="ni">🧾</span>الحركات</button>
+  <button data-p="save" onclick="go('save')"><span class="ni">🎯</span>التوفير</button>
+  <button data-p="report" onclick="go('report')"><span class="ni">📑</span>التقارير</button>
+  <button data-p="set" onclick="go('set')"><span class="ni">⚙️</span>الإعدادات</button>
 </nav>
 
 <!-- ADD MODAL -->
@@ -392,9 +382,6 @@ function render(){
   renderAlerts();
   // all tx
   renderAll();
-  // week summary + leaks
-  renderWeek();
-  renderLeaks();
   // savings
   renderSavings();
   // report
@@ -428,52 +415,6 @@ function renderAll(){
   document.getElementById('allTx').innerHTML=list.length?list.map(txRow).join(''):'<div class="empty">لا توجد حركات</div>';
 }
 document.getElementById('filterCat').addEventListener('change',renderAll);
-
-function renderWeek(){
-  const today=new Date();const from=new Date(today.getTime()-6*864e5).toISOString().slice(0,10);
-  const to=today.toISOString().slice(0,10);
-  const inR=t=>t.date>=from&&t.date<=to;
-  const exp=S.tx.filter(t=>t.type==='expense'&&inR(t));
-  const spent=exp.reduce((a,t)=>a+ +t.amt,0);
-  const days={};exp.forEach(t=>days[t.date]=(days[t.date]||0)+ +t.amt);
-  const avg=spent/7;
-  // top day
-  let topD='',topV=0;Object.entries(days).forEach(([d,v])=>{if(v>topV){topV=v;topD=d;}});
-  const dayName=d=>['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'][new Date(d).getDay()];
-  document.getElementById('weekSum').innerHTML=`
-   <div class="sumline"><span>إجمالي صرف الأسبوع</span><b>${fmtK1(spent)} د.ك · ${fmtE(spent*S.rate)} ج.م</b></div>
-   <div class="sumline"><span>المعدّل اليومي</span><b>${fmtK1(avg)} د.ك · ${fmtE(avg*S.rate)} ج.م</b></div>
-   <div class="sumline"><span>عدد الحركات</span><b>${exp.length}</b></div>
-   ${topD?`<div class="sumline"><span>أعلى يوم صرف</span><b>${dayName(topD)} (${fmtK1(topV)} د.ك)</b></div>`:''}`;
-  if(exp.length===0)document.getElementById('weekSum').innerHTML='<div class="empty">لا توجد مصاريف في آخر ٧ أيام</div>';
-}
-
-function renderLeaks(){
-  // small recurring expenses in last 30 days: count>=3 and avg amount small (<=3 KWD)
-  const from=new Date(Date.now()-29*864e5).toISOString().slice(0,10);
-  const exp=S.tx.filter(t=>t.type==='expense'&&t.date>=from);
-  const g={};
-  exp.forEach(t=>{const k=t.cat;if(!g[k])g[k]={n:0,sum:0};g[k].n++;g[k].sum+=+t.amt;});
-  let items=[];
-  Object.entries(g).forEach(([cat,o])=>{
-    const avg=o.sum/o.n;
-    if(o.n>=3&&avg<=3){ // frequent + small = potential leak
-      const monthly=o.sum; const yearly=o.sum*12;
-      items.push({cat,n:o.n,monthly,yearly,avg});
-    }
-  });
-  items.sort((a,b)=>b.yearly-a.yearly);
-  if(!items.length){document.getElementById('leaks').innerHTML='<div class="empty">مفيش تسريبات واضحة 👍 سجّل مصاريفك بانتظام علشان نكتشف أي مصاريف صغيرة متكررة.</div>';return;}
-  let h='<div class="small" style="margin-bottom:8px">مصاريف صغيرة بتتكرر — بتتراكم من غير ما تحس:</div>';
-  items.forEach(it=>{const c=catById(it.cat);
-    h+=`<div class="tx"><div class="ic" style="background:${c.color}22;color:${c.color}">${c.icon}</div>
-    <div class="mid"><b>${c.name}</b><span>${it.n} مرة آخر شهر · متوسط ${fmtK1(it.avg)} د.ك للمرة</span></div>
-    <div class="amt"><b style="color:var(--amber)">${fmtK1(it.monthly)} د.ك/شهر</b><span>≈ ${fmtE(it.yearly*S.rate)} ج.م/سنة</span></div></div>`;
-  });
-  const totalY=items.reduce((a,i)=>a+i.yearly,0);
-  h+=`<div class="tip" style="margin-top:11px"><span class="ti">⚠️</span><span>لو قلّلت التسريبات دي للنص، توفّر حوالي <b>${fmtK1(totalY/2)} د.ك</b> سنويًا (≈ ${fmtE(totalY/2*S.rate)} ج.م).</span></div>`;
-  document.getElementById('leaks').innerHTML=h;
-}
 
 function renderSavings(){
   const g=S.goal;const pct=g.target>0?Math.min(100,g.saved/g.target*100):0;
@@ -570,4 +511,65 @@ function renderReport(){
    <div class="sumline"><span>📌 التزامات ثابتة</span><b>${fmtK(t.fixed)} د.ك · ${fmtE(t.fixed*S.rate)} ج.م</b></div>
    <div class="sumline"><span>🛒 مصاريف متغيرة</span><b>${fmtK(t.variable)} د.ك · ${fmtE(t.variable*S.rate)} ج.م</b></div>
    <div class="sumline"><span>💳 إجمالي المصروف</span><b style="color:var(--red)">${fmtK(t.spent)} د.ك · ${fmtE(t.spent*S.rate)} ج.م</b></div>
-   <div class="sumline"><span>${t.remain>=0?'✅ الفائض/التوفير':'🔴 العجز'}</span><b style="color:${t.remain>=0?'var(--green)':'var(--red)'}">${fmtK(t.remain)} د.ك · ${fmtE(t.remain*S.rate)} ج
+   <div class="sumline"><span>${t.remain>=0?'✅ الفائض/التوفير':'🔴 العجز'}</span><b style="color:${t.remain>=0?'var(--green)':'var(--red)'}">${fmtK(t.remain)} د.ك · ${fmtE(t.remain*S.rate)} ج.م</b></div>`;
+  document.getElementById('rateNote').textContent='سعر الصرف المستخدم: 1 د.ك = '+S.rate+' ج.م ('+S.rateSrc+')';
+}
+
+function exportReport(){
+  const rd=getReportData();
+  if(rd.bad){alert('اختر فترة صحيحة أولًا');return;}
+  const t=rd.t,cs=rd.cs,periodLabel=rd.title;
+  let rows=CATS.filter(c=>cs[c.id]>0).map(c=>`<tr><td>${c.icon} ${c.name}</td><td>${fmtK(cs[c.id])}</td><td>${fmtE(cs[c.id]*S.rate)}</td></tr>`).join('');
+  const html=`<!doctype html><html dir="rtl" lang="ar"><meta charset="utf-8"><title>تقرير ${monthName(mo)}</title>
+  <style>body{font-family:Tahoma;max-width:700px;margin:30px auto;color:#0f172a;padding:0 16px}h1{color:#0f766e}
+  table{width:100%;border-collapse:collapse;margin:14px 0}td,th{border:1px solid #e2e8f0;padding:9px;text-align:right;font-size:14px}
+  th{background:#ccfbf1}.big{font-size:20px;font-weight:bold}.g{color:#16a34a}.r{color:#dc2626}</style>
+  <h1>💰 التقرير المالي — ${periodLabel}</h1>
+  <p>اسم: علي شعبان · سعر الصرف: 1 د.ك = ${S.rate} ج.م</p>
+  <table><tr><th>البند</th><th>د.ك</th><th>ج.م</th></tr>
+  <tr><th>الدخل</th><th>${fmtK(t.income)}</th><th>${fmtE(t.income*S.rate)}</th></tr>
+  <tr><td>التزامات ثابتة</td><td>${fmtK(t.fixed)}</td><td>${fmtE(t.fixed*S.rate)}</td></tr>
+  <tr><td>مصاريف متغيرة</td><td>${fmtK(t.variable)}</td><td>${fmtE(t.variable*S.rate)}</td></tr>
+  ${rows}
+  <tr class="big"><td>إجمالي المصروف</td><td class="r">${fmtK(t.spent)}</td><td class="r">${fmtE(t.spent*S.rate)}</td></tr>
+  <tr class="big"><td>${t.remain>=0?'الفائض/التوفير':'العجز'}</td><td class="${t.remain>=0?'g':'r'}">${fmtK(t.remain)}</td><td class="${t.remain>=0?'g':'r'}">${fmtE(t.remain*S.rate)}</td></tr>
+  </table>
+  <p>هدف التوفير «${S.goal.name}»: ${fmtK1(S.goal.saved)} / ${fmtK1(S.goal.target)} د.ك</p>
+  <p style="color:#64748b;font-size:12px">تم الإنشاء بواسطة تطبيق «مالي» · ${new Date().toLocaleDateString('ar-EG')}</p></html>`;
+  const b=new Blob([html],{type:'text/html'});const u=URL.createObjectURL(b);
+  const a=document.createElement('a');a.href=u;a.download='تقرير-'+(reportMode==='range'?rd.from+'_'+rd.to:viewMonth)+'.html';a.click();
+}
+
+// ---------- Add tx ----------
+let addType='expense',addCat='food';
+function openAdd(){
+  addType='expense';addCat='food';setType('expense');
+  document.getElementById('aAmt').value='';document.getElementById('aNote').value='';
+  document.getElementById('aEgp').textContent='';
+  document.getElementById('aDate').value=new Date().toISOString().slice(0,10);
+  buildCatPick();open_('mAdd');
+}
+function buildCatPick(){
+  document.getElementById('catPick').innerHTML=CATS.map(c=>`<button class="${c.id===addCat?'sel':''}" onclick="pickCat('${c.id}')">${c.icon} ${c.name}</button>`).join('');
+}
+function pickCat(id){addCat=id;buildCatPick();}
+function setType(t){addType=t;document.getElementById('tExp').classList.toggle('on',t==='expense');document.getElementById('tInc').classList.toggle('on',t==='income');document.getElementById('catPick').parentElement.querySelector('label').style.display=t==='income'?'none':'block';document.getElementById('catPick').style.display=t==='income'?'none':'flex';}
+document.getElementById('aAmt').addEventListener('input',e=>{const v=+e.target.value||0;document.getElementById('aEgp').textContent=v?('≈ '+fmtE(v*S.rate)+' ج.م'):'';});
+function addTx(){
+  const amt=+document.getElementById('aAmt').value;
+  if(!amt||amt<=0){alert('اكتب مبلغ صحيح');return;}
+  S.tx.push({id:Date.now(),type:addType,amt,cat:addType==='income'?'other':addCat,note:document.getElementById('aNote').value.trim(),date:document.getElementById('aDate').value});
+  save();close_('mAdd');render();
+}
+function delTx(id){if(confirm('حذف الحركة؟')){S.tx=S.tx.filter(t=>t.id!==id);save();render();}}
+
+// ---------- Goal ----------
+function openGoal(){document.getElementById('gTarget').value=S.goal.target;document.getElementById('gSaved').value=S.goal.saved;document.getElementById('gName').value=S.goal.name;open_('mGoal');}
+function saveGoal(){S.goal={target:+document.getElementById('gTarget').value||0,saved:+document.getElementById('gSaved').value||0,name:document.getElementById('gName').value.trim()||'هدف'};save();close_('mGoal');render();}
+
+// ---------- Fixed ----------
+function renderFixed(){
+  document.getElementById('fixedList').innerHTML=S.fixed.length?S.fixed.map((f,i)=>{const c=catById(f.cat);
+    return `<div class="tx"><div class="ic" style="background:${c.color}22;color:${c.color}">${c.icon}</div><div class="mid"><b>${f.name}</b><span>${c.name}</span></div><div class="amt"><b>${fmtK1(f.amt)} د.ك</b><span>${fmtE(f.amt*S.rate)} ج.م</span></div><button class="del" onclick="delFixed(${i})">🗑</button></div>`;}).join(''):'<div class="empty">لا توجد التزامات</div>';
+}
+function openFixed(){document.getElementById('fName').value='';document.getElementById('fAmt').value='';const s=document.getElementById('fCat');s.innerHTML=CATS.map(c=>`<option value=
