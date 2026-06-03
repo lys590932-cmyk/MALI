@@ -520,7 +520,7 @@ function exportReport(){
   if(rd.bad){alert('اختر فترة صحيحة أولًا');return;}
   const t=rd.t,cs=rd.cs,periodLabel=rd.title;
   let rows=CATS.filter(c=>cs[c.id]>0).map(c=>`<tr><td>${c.icon} ${c.name}</td><td>${fmtK(cs[c.id])}</td><td>${fmtE(cs[c.id]*S.rate)}</td></tr>`).join('');
-  const html=`<!doctype html><html dir="rtl" lang="ar"><meta charset="utf-8"><title>تقرير ${monthName(mo)}</title>
+  const html=`<!doctype html><html dir="rtl" lang="ar"><meta charset="utf-8"><title>تقرير ${periodLabel}</title>
   <style>body{font-family:Tahoma;max-width:700px;margin:30px auto;color:#0f172a;padding:0 16px}h1{color:#0f766e}
   table{width:100%;border-collapse:collapse;margin:14px 0}td,th{border:1px solid #e2e8f0;padding:9px;text-align:right;font-size:14px}
   th{background:#ccfbf1}.big{font-size:20px;font-weight:bold}.g{color:#16a34a}.r{color:#dc2626}</style>
@@ -572,4 +572,38 @@ function renderFixed(){
   document.getElementById('fixedList').innerHTML=S.fixed.length?S.fixed.map((f,i)=>{const c=catById(f.cat);
     return `<div class="tx"><div class="ic" style="background:${c.color}22;color:${c.color}">${c.icon}</div><div class="mid"><b>${f.name}</b><span>${c.name}</span></div><div class="amt"><b>${fmtK1(f.amt)} د.ك</b><span>${fmtE(f.amt*S.rate)} ج.م</span></div><button class="del" onclick="delFixed(${i})">🗑</button></div>`;}).join(''):'<div class="empty">لا توجد التزامات</div>';
 }
-function openFixed(){document.getElementById('fName').value='';document.getElementById('fAmt').value='';const s=document.getElementById('fCat');s.innerHTML=CATS.map(c=>`<option value=
+function openFixed(){document.getElementById('fName').value='';document.getElementById('fAmt').value='';const s=document.getElementById('fCat');s.innerHTML=CATS.map(c=>`<option value="${c.id}">${c.icon} ${c.name}</option>`).join('');open_('mFixed');}
+function saveFixed(){const n=document.getElementById('fName').value.trim();const a=+document.getElementById('fAmt').value;if(!n||!a){alert('أكمل البيانات');return;}S.fixed.push({name:n,amt:a,cat:document.getElementById('fCat').value});save();close_('mFixed');renderFixed();render();}
+function delFixed(i){if(confirm('حذف الالتزام؟')){S.fixed.splice(i,1);save();renderFixed();render();}}
+
+// ---------- Settings ----------
+function fillSettings(){document.getElementById('sIncome').value=S.income;document.getElementById('sRate').value=S.rate;document.getElementById('rateSrc').textContent='المصدر: '+S.rateSrc;renderFixed();}
+function saveSettings(){S.income=+document.getElementById('sIncome').value||0;const r=+document.getElementById('sRate').value;if(r>0){S.rate=r;S.rateSrc='يدوي';}save();fillSettings();render();alert('تم الحفظ ✅');}
+
+// ---------- Live exchange rate ----------
+async function fetchRate(manual){
+  try{
+    const r=await fetch('https://open.er-api.com/v6/latest/KWD');
+    const j=await r.json();
+    if(j&&j.rates&&j.rates.EGP){S.rate=Math.round(j.rates.EGP*100)/100;S.rateSrc='تلقائي '+(j.time_last_update_utc?new Date(j.time_last_update_utc).toLocaleDateString('ar-EG'):'');save();fillSettings();render();if(manual)alert('تم تحديث السعر: 1 د.ك = '+S.rate+' ج.م');return;}
+    throw 0;
+  }catch(e){if(manual)alert('تعذّر جلب السعر تلقائيًا (تأكد من الإنترنت). تقدر تكتبه يدويًا.');}
+}
+
+// ---------- Backup ----------
+function backup(){const b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download='mali-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();}
+function restore(e){const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{S=Object.assign(JSON.parse(JSON.stringify(DEF)),JSON.parse(rd.result));save();fillSettings();render();alert('تمت الاستعادة ✅');}catch(x){alert('ملف غير صالح');}};rd.readAsText(f);}
+function resetAll(){if(confirm('سيتم مسح كل البيانات نهائيًا. متأكد؟')){localStorage.removeItem('mali');S=JSON.parse(JSON.stringify(DEF));save();fillSettings();render();}}
+
+// ---------- Nav / modal ----------
+function go(p){document.querySelectorAll('.page').forEach(x=>x.classList.remove('on'));document.getElementById('p-'+p).classList.add('on');document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.p===p));window.scrollTo(0,0);}
+function open_(id){document.getElementById(id).classList.add('on');}
+function close_(id){document.getElementById(id).classList.remove('on');}
+document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('on');}));
+
+// ---------- Init ----------
+fillSettings();render();
+fetchRate(false); // try live rate on load
+</script>
+</body>
+</html>
