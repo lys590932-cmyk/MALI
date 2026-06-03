@@ -425,10 +425,14 @@ function renderSavings(){
   const sugg=Math.max(0,t.remain);
   const remain=Math.max(0,g.target-g.saved);
   const months=sugg>0?Math.ceil(remain/sugg):0;
+  const rec=Math.max(0,Math.round(sugg*0.7));
+  const emTarget=Math.round(fixedTotal()*3);
   document.getElementById('planBox').innerHTML=`
    <div class="sumline"><span>الدخل الشهري</span><b>${fmtK1(t.income)} د.ك</b></div>
    <div class="sumline"><span>إجمالي المصروف الثابت + المتغير</span><b>${fmtK1(t.spent)} د.ك</b></div>
    <div class="sumline"><span>القابل للتوفير هذا الشهر</span><b style="color:var(--green)">${fmtK1(sugg)} د.ك</b></div>
+   <div class="sumline"><span>💡 توصيتي: وفّر شهريًا</span><b style="color:var(--teal)">${rec} د.ك</b></div>
+   <div class="sumline"><span>🛡️ هدف صندوق الطوارئ (٣ شهور)</span><b>${emTarget} د.ك</b></div>
    ${months?`<div class="small" style="margin-top:10px">بهذا المعدل توصل لهدفك خلال <b>${months}</b> شهر تقريبًا.</div>`:''}`;
   // tip
   const tips=[
